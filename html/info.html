@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>new webview</title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="mui-content">
+				<header class="mui-bar mui-bar-nav">
+					<h1 class="mui-title">题目解析</h1>
+				</header>
+				<!-- <span class="tip">在图片任意处双击可生成选择框</span> -->
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--这里放置真实显示的DOM内容-->
+					<div class="main">
+						阿斯顿发射点
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<script>
+			mui.init();
+			mui.plusReady(function(){
+			    var self = plus.webview.currentWebview();
+			    var name = self.name;//获得参数
+				console.log(name)
+			}); 
+		</script>
+	</body>
+</html>
