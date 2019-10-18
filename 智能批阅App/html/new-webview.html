@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>new webview</title>
+		<script src="../js/mui.min.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">题目解析</h1>
+		</header>
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--这里放置真实显示的DOM内容-->
+				<div  class="main">
+					</br>
+					</br>
+					</br>
+					<div id="infs">
+						<p>asfsadf</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<script src="../js/jquery-3.1.1.min.js" type="text/javascript"></script>
+		<script>
+			mui.init();
+			mui.plusReady(function(){
+				var wv=plus.webview.currentWebview();//获取当前窗口的WebviewObject对象
+				console.log(wv.infos); 
+				$("#infs").html(wv.infos);
+			})
+			
+		</script>
+	</body>
+</html>
