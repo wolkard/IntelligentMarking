@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		
+		<link rel="stylesheet" href="../css/mui.min.css">
+	</head>
+
+	<body>
+		<div id="ipt">
+			<header class="mui-bar mui-bar-nav">
+				<h1 class="mui-title">请输入学号</h1>
+			</header>
+			<div class="mui-content">
+				<form class="mui-input-group">
+				    <div class="mui-input-row">
+				        <label>学号：</label>
+				        <input id="num" type="text" class="mui-input-clear" placeholder="请输入内容">
+				    </div> 
+					<div class="mui-button-row">
+						<button id="push" type="button" class="mui-btn mui-btn-primary" onclick="getNum()">确定</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="show" class="mui-hidden">
+			<header class="mui-bar mui-bar-nav">
+				<h1 class="mui-title">已绑定的学号</h1>
+			</header>
+			<div class="mui-content">
+				<form class="mui-input-group">
+				    <div class="mui-input-row">
+				        <label>您的学号：</label>
+				        <input id="showNum" type="text" placeholder="请输入内容" readonly ="readonly">
+				    </div>
+					<div class="mui-button-row">
+						<button id="push" type="button" class="mui-btn mui-btn-primary" onclick="change(true)">修改</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+	<script>
+		mui.init();
+	</script>
+	<script src="../js/util.js"></script>
+	<script type="text/javascript">
+		mui.plusReady(function() {
+			var num = plus.storage.getItem('num');
+			if(num!=null){
+				$("#ipt").addClass("mui-hidden");
+				$("#showNum").val(num);
+				$("#show").removeClass("mui-hidden");
+			}
+			// var activePage = plus.storage.getItem('activePage');
+			// var targetPage = plus.storage.getItem('targetPage');
+		});
+		function getNum(){
+			var num = mui("#num")[0].value.replace(" ","");
+			if(num != ""){
+				chick(num)
+			}else{
+				plus.storage.removeItem('num');
+				mui.toast("请输入学号！")
+			}
+			
+		}
+		function change(flg){
+			if(flg==true){
+				var num = $("#showNum").val();
+				$("#num").val(num);
+				$("#show").addClass("mui-hidden");
+				$("#ipt").removeClass("mui-hidden");
+				$("#num").focus();//聚焦输入框
+			}else{
+				var num = $("#num").val();
+				// plus.storage.setItem('num', num );
+				$("#ipt").addClass("mui-hidden");
+				$("#showNum").val(num);
+				$("#show").removeClass("mui-hidden");
+			}
+			
+		}
+		Url = 'http://daincy.iok.la:5000/'
+		function chick(num){
+			//数据库查询
+			$.ajax({
+				url: Url+"chickNum",
+				data: {num:num},
+				type: "POST",
+				dataType: "json",
+				success:function(inf){
+				   inf=eval(inf)
+					if (inf.code=="1"){
+						mui.toast("绑定成功，可进行拍照识别！")
+						plus.storage.setItem('num_id', ""+inf.num_id+"");
+						plus.storage.setItem('num', num );
+						change(false);
+					}else if(inf.code=="0"){
+						mui.toast("无此学号,请重新输入！")
+					}else{
+						mui.toast("系统错误，请联系管理员！")
+					}
+				},
+				error:function(){
+					console.log("send error!")
+				}
+		    })
+		}
+	</script>
+</html>
